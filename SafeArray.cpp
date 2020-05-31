@@ -9,7 +9,7 @@ class IndexOutOfBoundsException : public std::exception{
 };
 
 template <typename T>
-class Array{
+class SafeArray{
 private:
     T* arrayPtr{nullptr};
     int size{0};
@@ -19,13 +19,13 @@ private:
     }
 
 public:
-    Array()=default;
-    ~Array(){
+    SafeArray()=default;
+    ~SafeArray(){
         delete [] arrayPtr;
         }
 
     // Copy Constructor
-    Array(const Array& source){
+    SafeArray(const SafeArray& source){
         size = source.size;
         arrayPtr = new T[size]{};
         for(int i = 0; i < size; i++){
@@ -33,7 +33,7 @@ public:
         }
     }
 
-    explicit Array(int size){
+    explicit SafeArray(int size){
         if(size > 0){
             this->size = size;
             this->arrayPtr = new T[size]{};
@@ -65,7 +65,7 @@ public:
     }
 
     // Helps debug!
-    friend std::ostream& operator<<(std::ostream& os, const Array& ar){
+    friend std::ostream& operator<<(std::ostream& os, const SafeArray& ar){
         
         os << "[ ";
         for(int i = 0; i < ar.getSize(); i++){
@@ -80,9 +80,10 @@ public:
 
 };
 
+/*
 int main(void){
     int N = 5;
-    Array<double> a(N);
+    SafeArray<double> a(N);
     
     int c1 = 2;
     int c2 = 3;
@@ -93,6 +94,6 @@ int main(void){
     std::cout << a << '\n';
 
 }
-
+*/
 
 
