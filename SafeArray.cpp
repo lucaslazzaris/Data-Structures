@@ -1,18 +1,12 @@
 #include<iostream>
 #include<exception>
-
-class IndexOutOfBoundsException : public std::exception{
-    virtual const char* what() const throw(){
-        return "Trying to initialize array with size < 0 or invalid bounds";
-    }
-
-};
+#include "IndexOutOfBoundsException.cpp"
 
 template <typename T>
 class SafeArray{
 private:
     T* arrayPtr{nullptr};
-    int size{0};
+    unsigned int size{0};
 
     bool isValidIndex(int index) const{
         return index >= 0 && index < size;
@@ -62,6 +56,59 @@ public:
         else{
             throw IndexOutOfBoundsException{};
         }
+    }
+
+    T& operator[](int index) const{
+        if(isValidIndex(index)){
+            return arrayPtr[index];
+        }
+        else{
+            throw IndexOutOfBoundsException{};
+        }
+    }
+
+    SafeArray& operator=(const SafeArray& source){
+        
+        if(&source == this){
+            return *this;
+        }
+
+        delete [] arrayPtr;
+
+        size = source.size;
+        arrayPtr = new T[size]{};
+        
+        for(int i = 0; i < size; i++){
+            arrayPtr[i] = source.arrayPtr[i];
+        }
+    }
+
+    bool operator==(const SafeArray& source) const{
+        if(size != source.getSize()){
+            return false;
+        }
+        for(int i=0; i < size; i++){
+            if(arrayPtr[i] != source[i]){
+                return false;
+            }
+        }
+
+        return true;
+
+    }
+
+    bool operator!=(const SafeArray& source) const{
+        if(size != source.getSize()){
+            return true;
+        }
+        for(int i=0; i < size; i++){
+            if(arrayPtr[i] != source[i]){
+                return true;
+            }
+        }
+
+        return false;
+
     }
 
     // Helps debug!

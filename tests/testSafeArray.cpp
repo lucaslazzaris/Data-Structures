@@ -41,3 +41,47 @@ TEST_CASE("Out of bounds", "[SafeArray]"){
     REQUIRE_THROWS(a1[4] = 0);
 
 }
+
+TEST_CASE("Copy Array", "[SafeArray]"){
+    SafeArray<int> a1(4);
+    SafeArray<int> a2(12);
+   
+    a2[0] = 1;
+    a2[1] = 2;
+    a2[2] = 4;
+    a2[3] = 8;
+    
+    a1 = a2;
+    a2[10] = 3;
+    a1[11] = 101;
+
+    CHECK(a1[0] == 1);
+    CHECK(a1[11] == 101);
+    CHECK(a1[10] == 0);
+    CHECK(a2[10] == 3);
+    REQUIRE(a2[11] == 0);
+
+}
+
+TEST_CASE("Equality Operator", "[SafeArray]"){
+    SafeArray<int> a1(3);
+    SafeArray<int> a2(3);
+   
+    a2[0] = 1;
+    a2[1] = 2;
+    a2[2] = 4;
+    
+    a1[0] = 1;
+    a1[1] = 2;
+    a1[2] = 4;
+    
+    CHECK(a1 == a2);
+    CHECK_FALSE(a1 != a2);
+    a1[2] = 42;
+
+    CHECK(a1 != a2);
+    REQUIRE_FALSE(a1 == a2);
+    
+    
+
+}
