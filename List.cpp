@@ -53,12 +53,59 @@ public:
         size = 1;
     }
 
-   
-    Node* find(const T& value) const{
+    bool exists(const T& value) const{
+        if(isEmpty()){
+            return false;
+        }
+        auto current = head;
+        while(current->getNext()){
+            if(current->getValue() == value){
+                return true;
+            }
+            current = current->getNext();
+        }
+        if(current->getValue() == value){
+            return true;
+        }
+        return false;
+
+    }
+
+    Node<T>* findNode(const T& value) const{
         if(isEmpty()){
             return nullptr;
         }
-        
+        auto current = head;
+        while(current->getNext()){
+            if(current->getValue() == value){
+                return current;
+            }
+            current = current->getNext();
+        }
+        if(current->getValue() == value){
+            return current;
+        }
+        return nullptr;
+    }
+
+    int findIndex(const T& value) const{
+        if(isEmpty()){
+            return -1;
+        }
+        int i = 0;
+        auto current = head;
+        while(current->getNext()){
+            if(current->getValue() == value){
+                return i;
+            }
+            current = current->getNext();
+            i++;
+        }
+        if(current->getValue() == value){
+            return i;
+        }
+        // Not found
+        return -1;
 
     }
 
@@ -114,19 +161,19 @@ public:
 
     }
 
-    bool isValidIndex(int index){
+    bool isValidIndex(int index) const{
         return index >= 0 && index < size; 
     }
 
-    bool isEmpty(void){
+    bool isEmpty(void) const{
         return size == 0;
     }
 
-    Node<T>* getHead(void){
+    Node<T>* getHead(void) const{
         return head;
     }
 
-    int getSize(void){
+    int getSize(void) const{
         return size;
     }
 
