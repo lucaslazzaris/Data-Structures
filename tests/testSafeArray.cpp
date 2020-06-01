@@ -1,7 +1,7 @@
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
 #include "../SafeArray.cpp"
-#include<numeric>
+
 
 TEST_CASE("Test SafeArray Constructors", "[SafeArray]"){
 
