@@ -1,6 +1,6 @@
 #include<iostream>
 #include<exception>
-#include "IndexOutOfBoundsException.cpp"
+#include "Exceptions.cpp"
 
 template <class T>
 class Node{
@@ -51,6 +51,13 @@ public:
     List(Node<T>* newHead){
         head = newHead;
         size = 1;
+    }
+    ~List(){clear();}
+
+    void clear(){
+        while(!isEmpty()){
+            popHead();
+        }
     }
 
     bool exists(const T& value) const{
@@ -145,6 +152,45 @@ public:
         }
     }
 
+    T popHead(void){
+        if(isEmpty()){
+            throw ZeroSizedOperation{};
+        }
+        
+        T data = head->getValue();
+        auto secondNode = head->getNext();
+        delete head;
+
+        head = secondNode;
+        size--;
+        return data;
+    }
+
+    T popTail(void){
+        if(isEmpty()){
+            throw ZeroSizedOperation{};
+        }
+        else if(getSize() == 1){
+            return popHead();
+        }
+        
+        auto current = head;
+        Node<T>* previous;
+        while(current->getNext()){
+            previous = current;
+            current = current->getNext();
+        }
+
+        T data = current->getValue();
+        previous->setNext(nullptr);
+
+        delete current;
+
+        size--;
+
+        return data;
+    }
+
 
      T& operator[](int index){
         
@@ -185,3 +231,7 @@ private:
 
 
 };
+
+
+// TODO: Insert and remove after K element!
+// TODO: Refatorate to have a Node* tail(){...}

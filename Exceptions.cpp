@@ -7,3 +7,11 @@ class IndexOutOfBoundsException : public std::exception{
     }
 
 };
+
+
+class ZeroSizedOperation : public std::exception{
+    virtual const char* what() const throw(){
+        return "Cannot perform this operation on an empty list";
+    }
+
+};

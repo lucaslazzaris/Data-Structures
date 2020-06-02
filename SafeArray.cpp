@@ -1,6 +1,6 @@
 #include<iostream>
 #include<exception>
-#include "IndexOutOfBoundsException.cpp"
+#include "Exceptions.cpp"
 
 template <typename T>
 class SafeArray{
@@ -81,6 +81,8 @@ public:
         for(int i = 0; i < size; i++){
             arrayPtr[i] = source.arrayPtr[i];
         }
+
+        return *this;
     }
 
     bool operator==(const SafeArray& source) const{
@@ -120,7 +122,7 @@ public:
         }
         
         os << "]\n";
-
+        return os;
     }
 
 
