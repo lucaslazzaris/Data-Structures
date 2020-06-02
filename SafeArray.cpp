@@ -22,9 +22,8 @@ public:
     SafeArray(const SafeArray& source){
         size = source.size;
         arrayPtr = new T[size]{};
-        for(int i = 0; i < size; i++){
-            arrayPtr[i] = source.arrayPtr[i];
-        }
+        memcpy(arrayPtr, source.getData(), size * sizeof(T));
+        
     }
 
     explicit SafeArray(int size){
@@ -78,9 +77,8 @@ public:
         size = source.size;
         arrayPtr = new T[size]{};
         
-        for(int i = 0; i < size; i++){
-            arrayPtr[i] = source.arrayPtr[i];
-        }
+        memcpy(arrayPtr, source.getData(), size * sizeof(T));
+        
 
         return *this;
     }

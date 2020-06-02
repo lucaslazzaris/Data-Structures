@@ -81,7 +81,49 @@ TEST_CASE("Equality Operator", "[SafeArray]"){
 
     CHECK(a1 != a2);
     REQUIRE_FALSE(a1 == a2);
-    
-    
 
 }
+
+TEST_CASE("Equality with char", "[SafeArray]"){
+    SafeArray<char> a1(3);
+    SafeArray<char> a2(3);
+   
+    a2[0] = '1';
+    a2[1] = '2';
+    a2[2] = '4';
+    
+    a1[0] = '1';
+    a1[1] = '2';
+    a1[2] = '4';
+    
+    CHECK(a1 == a2);
+    CHECK_FALSE(a1 != a2);
+    a1[2] = 'a';
+
+    CHECK(a1 != a2);
+    REQUIRE_FALSE(a1 == a2);
+
+}
+
+TEST_CASE("Equality with pointers", "[SafeArray]"){
+    SafeArray<char*> a1(3);
+    SafeArray<char*> a2(3);
+   
+    a2[0] = "cstring";
+    a2[1] = "cstring2";
+    a2[2] = "cstring3";
+    
+    a1[0] = "cstring";
+    a1[1] = "cstring2";
+    a1[2] = "cstring3";
+    
+    CHECK(a1 == a2);
+    CHECK_FALSE(a1 != a2);
+    a1[2] = nullptr;
+
+    CHECK(a1 != a2);
+    CHECK_FALSE(a1 == a2);
+    REQUIRE(a1[2] == nullptr);
+
+}
+

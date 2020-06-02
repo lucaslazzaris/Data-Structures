@@ -28,7 +28,7 @@ public:
         return next;
     }
 
-    void setNext(Node<T>* nextNode){
+    void setNext(Node<T>* const nextNode){
         next = nextNode;
     }
 
@@ -48,7 +48,7 @@ public:
         head = node;
         size = 1;
     }
-    List(Node<T>* newHead){
+    List(Node<T>* const newHead){
         head = newHead;
         size = 1;
     }
@@ -117,78 +117,83 @@ public:
     }
 
     void insertHead(const T& value){
-        if(size == 0){
-            auto node = new Node<T>(value);
-            head = node;
-            size += 1;
-        }
-
-        else{
-            auto node = new Node<T>(value);
-            node->setNext(head);
-            head = node;
-            size += 1;
-        }
-
+        insert(value, 0);
     }
 
     void insertTail(const T& value){
-        if(size == 0){
-            auto node = new Node<T>(value);
-            head = node;
-            size += 1;
-        }
+        insert(value, size);
+    }
 
-        else{
-            auto current = head;
-            
-            while(current->getNext()){
-                current = current->getNext();
-            }
-            // current is now the tail
-            auto newTail = new Node<T>(value);
-            current->setNext(newTail);
-            size += 1;
+    void insert(const T& value, int index){
+        if(!isValidInsertableIndex(index)){
+            throw IndexOutOfBoundsException{};
         }
+        if(isEmpty()){
+            head = new Node<T>(value);
+            size += 1;
+            return;
+        }
+        if(index == size){
+            auto currentTail = getTail();
+            auto newTail = new Node<T>(value);
+            currentTail->setNext(newTail);
+            size += 1;
+            return;
+        }
+        if(index == 0){
+            auto newHead = new Node<T>(value);
+            newHead->setNext(head);
+            head = newHead;
+            size +=1;
+            return;
+        }
+        auto current = head;
+        for(int i = 0; i < index - 1; i++){
+            current = current->getNext();
+        }
+        auto newNode = new Node<T>(value);
+        newNode->setNext(current->getNext());
+        current->setNext(newNode);
+        size++;
+        
     }
 
     T popHead(void){
-        if(isEmpty()){
-            throw ZeroSizedOperation{};
-        }
-        
-        T data = head->getValue();
-        auto secondNode = head->getNext();
-        delete head;
-
-        head = secondNode;
-        size--;
-        return data;
+        return remove(0);
     }
 
     T popTail(void){
-        if(isEmpty()){
+        return remove(size - 1);
+    }
+
+    T remove(int index){
+        if(isEmpty() || !isValidIndex(index)){
             throw ZeroSizedOperation{};
         }
-        else if(getSize() == 1){
-            return popHead();
+        if(index == 0){
+            T headValue = head->getValue();
+            auto right = head->getNext();
+            delete head;
+            head = right;
+            size--;
+            return headValue;
         }
-        
+
         auto current = head;
         Node<T>* previous;
-        while(current->getNext()){
+        for(int i = 0; i < index; i++){
             previous = current;
             current = current->getNext();
         }
 
-        T data = current->getValue();
-        previous->setNext(nullptr);
-
+        T oldIndexData = current->getValue();
+        
+        previous->setNext(current->getNext());
         delete current;
-
         size--;
+        
+        return oldIndexData;
 
-        return data;
     }
 
 
@@ -211,12 +216,27 @@ public:
         return index >= 0 && index < size; 
     }
 
+    bool isValidInsertableIndex(int index) const{
+        return index >= 0 && index <= size;
+    }
+
     bool isEmpty(void) const{
         return size == 0;
     }
 
     Node<T>* getHead(void) const{
         return head;
+    }
+
+    Node<T>* getTail(void) const{
+        auto current = head;
+        if(!current){
+            return nullptr;
+        }
+        while(current->getNext()){
+            current = current->getNext();
+        }
+        return current;
     }
 
     int getSize(void) const{
@@ -228,10 +248,4 @@ private:
     Node<T>* head{nullptr};
     unsigned int size{0};
 
-
-
 };
-
-
-// TODO: Insert and remove after K element!
-// TODO: Refatorate to have a Node* tail(){...}
