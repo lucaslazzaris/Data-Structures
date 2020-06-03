@@ -65,15 +65,13 @@ public:
             return false;
         }
         auto current = head;
-        while(current->getNext()){
+        while(current){
             if(current->getValue() == value){
                 return true;
             }
             current = current->getNext();
         }
-        if(current->getValue() == value){
-            return true;
-        }
+
         return false;
 
     }
@@ -83,14 +81,11 @@ public:
             return nullptr;
         }
         auto current = head;
-        while(current->getNext()){
+        while(current){
             if(current->getValue() == value){
                 return current;
             }
             current = current->getNext();
-        }
-        if(current->getValue() == value){
-            return current;
         }
         return nullptr;
     }
@@ -101,16 +96,14 @@ public:
         }
         int i = 0;
         auto current = head;
-        while(current->getNext()){
+        while(current){
             if(current->getValue() == value){
                 return i;
             }
             current = current->getNext();
             i++;
         }
-        if(current->getValue() == value){
-            return i;
-        }
+
         // Not found
         return -1;
 
