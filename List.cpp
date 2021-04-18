@@ -39,8 +39,6 @@ template <class T>
 class List{
 public:
 
-
-
     List()=default;
 
     List(T headValue){
