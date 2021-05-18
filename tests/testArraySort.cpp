@@ -4,23 +4,50 @@
 #include<vector>
 
 TEST_CASE("Swap", "[Swap]"){
-  SECTION("Swap vector"){
-    std::vector<int> a{1, 2};
-    swap(&a[0], &a[1]);
-    REQUIRE_THAT(a, Catch::Matchers::Equals(std::vector<int>{ 2, 1}));
+    SECTION("Swap vector"){
+        std::vector<int> a{1, 2};
+        swap(&a[0], &a[1]);
+        REQUIRE_THAT(a, Catch::Matchers::Equals(std::vector<int>{ 2, 1}));
 
-  }
+    }
 
-  SECTION("Swap array"){
-    int a[2];
-    a[0] = 1;
-    a[1] = 2;
+    SECTION("Swap array"){
+        int a[2];
+        a[0] = 1;
+        a[1] = 2;
 
-    swap(&a[0], &a[1]);
-    REQUIRE(a[0] == 2);
-    REQUIRE(a[1] == 1);
-  }
+        swap(&a[0], &a[1]);
+        REQUIRE(a[0] == 2);
+        REQUIRE(a[1] == 1);
+    }
 }
+
+TEST_CASE("Merge", "[Merge]"){
+    SECTION("Merge continuos sorted array"){
+        std::vector<int> a{1, 2, 3, 4, 5, 6};
+        merge(a, 0, 2, 5);
+        REQUIRE_THAT(a, Catch::Matchers::Equals(std::vector<int>{ 1, 2, 3, 4, 5, 6 }));
+    }
+
+    SECTION("Merge sorted array"){
+        std::vector<int> a{1, 4, 7, 2, 5, 6};
+        merge(a, 0, 2, 5);
+        REQUIRE_THAT(a, Catch::Matchers::Equals(std::vector<int>{ 1, 2, 4, 5, 6, 7 }));
+    }
+
+    SECTION("Merge continuos sorted array"){
+        std::vector<int> a{1, 2, 3, 4, 5, 6, 7};
+        merge(a, 0, 3, 6);
+        REQUIRE_THAT(a, Catch::Matchers::Equals(std::vector<int>{ 1, 2, 3, 4, 5, 6, 7 }));
+    }
+
+    SECTION("Merge sorted array"){
+        std::vector<int> a{1, 4, 7, 9, 5, 6, 8};
+        merge(a, 0, 3, 6);
+        REQUIRE_THAT(a, Catch::Matchers::Equals(std::vector<int>{ 1, 4, 5, 6, 7, 8, 9 }));
+    }
+}
+
 
 TEST_CASE("InsertionSort", "[Sort]"){
     SECTION("Sorted Array"){

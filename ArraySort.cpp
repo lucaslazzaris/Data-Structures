@@ -81,3 +81,57 @@ void recursiveBubbleSort(std::vector<T>& vec, int size=-1){
     }
     recursiveBubbleSort(vec, size - 1);
 }
+
+// fif size is odd, middle goes to the first vec 
+template<typename T>
+void merge(std::vector<T>& vec, int left, int middle, int right){
+    std::vector<T> helper_vector(vec.size(), 0);
+    helper_vector.reserve(vec.size());
+
+    for (int i = left; i <= right; i++){
+        helper_vector[i] = vec[i]; 
+    }
+
+    auto i = left;
+    auto j = middle + 1;
+    int k = left;
+
+    while (i < middle + 1 && j < right + 1 ){
+        if(helper_vector[i] < helper_vector[j]){
+            vec[k] = helper_vector[i];
+            i++;
+        }
+        else {
+            vec[k] = helper_vector[j];
+            j++;
+        }
+        k++;
+    }
+
+    while (i < middle + 1){
+        vec[k] = helper_vector[i];
+        i++;
+        k++;
+    } 
+    while (j < right + 1){
+        vec[k] = helper_vector[j];
+        j++;
+        k++;
+    }
+
+}
+
+template<typename T>
+void mergeSort(std::vector<T>& vec, int left, int right){
+    if(left >= right){
+        return;
+    }
+    else{
+        int middle = (left + right) / 2;
+        mergeSort(vec, left, middle);
+        mergeSort(vec, middle + 1, right);
+
+        merge(vec, left, middle, right);
+    }
+}
+
