@@ -48,6 +48,37 @@ TEST_CASE("Merge", "[Merge]"){
     }
 }
 
+TEST_CASE("MergeSort", "[Sort]"){
+    SECTION("Sorted Array"){
+        std::vector<int> a{1, 2, 3, 4, 5, 6};
+        mergeSort(a, 0, a.size() - 1);
+        REQUIRE_THAT(a, Catch::Matchers::Equals(std::vector<int>{ 1, 2, 3, 4, 5, 6 }));
+    }
+
+    SECTION("Reversed Array"){
+        std::vector<int> a{6, 5, 4, 3, 2, 1};
+        mergeSort(a, 0, a.size() - 1);
+        REQUIRE_THAT(a, Catch::Matchers::Equals(std::vector<int>{ 1, 2, 3, 4, 5, 6 }));
+    }
+
+    SECTION("First smaller"){        
+        std::vector<int> a{1, 2, 4, 3, 6, 5};
+        mergeSort(a, 0, a.size() - 1);
+        REQUIRE_THAT(a, Catch::Matchers::Equals(std::vector<int>{ 1, 2, 3, 4, 5, 6 }));
+    }
+
+    SECTION("Last bigger"){        
+        std::vector<int> a{2, 5, 4, 3, 1, 6};
+        mergeSort(a, 0, a.size() - 1);
+        REQUIRE_THAT(a, Catch::Matchers::Equals(std::vector<int>{ 1, 2, 3, 4, 5, 6 }));
+    }
+    
+    SECTION("Last bigger and first smaller"){        
+        std::vector<int> a{1, 5, 4, 3, 2, 6};
+        mergeSort(a, 0, a.size() - 1);
+        REQUIRE_THAT(a, Catch::Matchers::Equals(std::vector<int>{ 1, 2, 3, 4, 5, 6 }));
+    }
+}
 
 TEST_CASE("InsertionSort", "[Sort]"){
     SECTION("Sorted Array"){

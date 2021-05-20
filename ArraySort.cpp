@@ -134,4 +134,3 @@ void mergeSort(std::vector<T>& vec, int left, int right){
         merge(vec, left, middle, right);
     }
 }
-
