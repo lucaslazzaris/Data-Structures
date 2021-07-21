@@ -1,5 +1,5 @@
 # Data-Structures
-Implementation of the most simple data structures and algorithms in C++
+Implementation of the simplest data structures and algorithms in C++
 
 # How to test?
 
