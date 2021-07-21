@@ -106,8 +106,8 @@ TEST_CASE("Equality with char", "[SafeArray]"){
 }
 
 TEST_CASE("Equality with pointers", "[SafeArray]"){
-    SafeArray<char*> a1(3);
-    SafeArray<char*> a2(3);
+    SafeArray<const char*> a1(3);
+    SafeArray<const char*> a2(3);
    
     a2[0] = "cstring";
     a2[1] = "cstring2";
