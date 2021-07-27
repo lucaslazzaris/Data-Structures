@@ -36,13 +36,13 @@ TEST_CASE("Test Heap Constructors", "[Heap]"){
     }
 }
 
-TEST_CASE("Out of bounds", "[SafeArray]"){
+TEST_CASE("Out of bounds", "[Heap]"){
     Heap<int> a1(4);
     CHECK_THROWS(a1[-1] = 0);
     REQUIRE_THROWS(a1[4] = 0);
 }
 
-TEST_CASE("Copy Array", "[SafeArray]"){
+TEST_CASE("Copy Array", "[Heap]"){
     Heap<int> a1(4);
     Heap<int> a2(12);
    
@@ -62,7 +62,7 @@ TEST_CASE("Copy Array", "[SafeArray]"){
     REQUIRE(a2[11] == 0);
 }
 
-TEST_CASE("Equality Operator", "[SafeArray]"){
+TEST_CASE("Equality Operator", "[Heap]"){
     Heap<int> a1(3);
     Heap<int> a2(3);
    
@@ -83,7 +83,7 @@ TEST_CASE("Equality Operator", "[SafeArray]"){
 
 }
 
-TEST_CASE("Equality with char", "[SafeArray]"){
+TEST_CASE("Equality with char", "[Heap]"){
     Heap<char> a1(3);
     Heap<char> a2(3);
    
@@ -104,7 +104,7 @@ TEST_CASE("Equality with char", "[SafeArray]"){
 
 }
 
-TEST_CASE("Equality with pointers", "[SafeArray]"){
+TEST_CASE("Equality with pointers", "[Heap]"){
     Heap<const char*> a1(3);
     Heap<const char*> a2(3);
    
@@ -126,3 +126,110 @@ TEST_CASE("Equality with pointers", "[SafeArray]"){
 
 }
 
+TEST_CASE("Parent, Lef and Right", "[Heap]"){
+    Heap<int> heap{10};
+    heap[0] = 16;
+    heap[1] = 14;
+    heap[2] = 10;
+    heap[3] = 8;
+    heap[4] = 7;
+    heap[5] = 9;
+    heap[6] = 3;
+    heap[7] = 2;
+    heap[8] = 4;
+    heap[9] = 1;
+
+    SECTION("Parent"){
+        CHECK(16 == heap[heap.parent(1)]);
+        CHECK(16 == heap[heap.parent(2)]);
+        CHECK(14 == heap[heap.parent(3)]);
+        REQUIRE(14 == heap[heap.parent(4)]);
+    }
+
+    SECTION("Left"){
+        CHECK(14 == heap[heap.left(0)]);
+        CHECK(8 == heap[heap.left(1)]);
+        CHECK(9 == heap[heap.left(2)]);
+        REQUIRE(2 == heap[heap.left(3)]);
+    }
+
+    SECTION("Right"){
+        CHECK(10 == heap[heap.right(0)]);
+        CHECK(7 == heap[heap.right(1)]);
+        CHECK(3 == heap[heap.right(2)]);
+        REQUIRE(4 == heap[heap.right(3)]);
+    }
+}
+
+TEST_CASE("maxHeapify", "[Heap]"){
+    Heap<int> heap{10};
+    heap[0] = 16;
+    heap[1] = 4;
+    heap[2] = 10;
+    heap[3] = 14;
+    heap[4] = 7;
+    heap[5] = 9;
+    heap[6] = 3;
+    heap[7] = 2;
+    heap[8] = 8;
+    heap[9] = 1;
+
+    SECTION("Do nothing when heap is already max"){
+        heap.maxHeapify(2);
+        CHECK(16 == heap[0]);
+        CHECK(4 == heap[1]);
+        CHECK(10 == heap[2]);
+        CHECK(14 == heap[3]);
+        CHECK(7 == heap[4]);
+        CHECK(9 == heap[5]);
+        CHECK(3 == heap[6]);
+        CHECK(2 == heap[7]);
+        CHECK(8 == heap[8]);
+        REQUIRE(1 == heap[9]);
+    }
+
+     SECTION("Do nothing when children are not bigger"){
+        heap.maxHeapify(0);
+        CHECK(16 == heap[0]);
+        CHECK(4 == heap[1]);
+        CHECK(10 == heap[2]);
+        CHECK(14 == heap[3]);
+        CHECK(7 == heap[4]);
+        CHECK(9 == heap[5]);
+        CHECK(3 == heap[6]);
+        CHECK(2 == heap[7]);
+        CHECK(8 == heap[8]);
+        REQUIRE(1 == heap[9]);
+    }
+
+    SECTION("maxHeapify the heap to the left"){
+        heap.maxHeapify(1);
+        CHECK(16 == heap[0]);
+        CHECK(14 == heap[1]);
+        CHECK(10 == heap[2]);
+        CHECK(8 == heap[3]);
+        CHECK(7 == heap[4]);
+        CHECK(9 == heap[5]);
+        CHECK(3 == heap[6]);
+        CHECK(2 == heap[7]);
+        CHECK(4 == heap[8]);
+        CHECK(1 == heap[9]);
+    }
+
+    SECTION("maxHeapify the heap to the right"){
+        heap[3] = 7;
+        heap[4] = 14;
+
+        heap.maxHeapify(1);
+        CHECK(16 == heap[0]);
+        CHECK(14 == heap[1]);
+        CHECK(10 == heap[2]);
+        CHECK(7 == heap[3]);
+        CHECK(4 == heap[4]);
+        CHECK(9 == heap[5]);
+        CHECK(3 == heap[6]);
+        CHECK(2 == heap[7]);
+        CHECK(8 == heap[8]);
+        REQUIRE(1 == heap[9]);
+    }
+}

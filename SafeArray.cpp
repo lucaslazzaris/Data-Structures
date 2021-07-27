@@ -4,7 +4,7 @@
 
 template <typename T>
 class SafeArray{
-private:
+protected:
     T* arrayPtr{nullptr};
     unsigned int size{0};
 
