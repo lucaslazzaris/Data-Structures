@@ -42,4 +42,11 @@ public:
         this->arrayPtr[node1] = this->arrayPtr[node2];
         this->arrayPtr[node2] = aux;
     }
+
+    // O(n)
+    void buildMaxHeap(){
+        for(int i = this->size / 2 - 1; i >= 0 ; i--){
+            maxHeapify(i);
+        }
+    }
 };

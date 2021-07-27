@@ -233,3 +233,47 @@ TEST_CASE("maxHeapify", "[Heap]"){
         REQUIRE(1 == heap[9]);
     }
 }
+
+TEST_CASE("buildMaxHeap", "[Heap]"){
+    Heap<int> heap{10};
+    heap[0] = 16;
+    heap[1] = 4;
+    heap[2] = 10;
+    heap[3] = 14;
+    heap[4] = 7;
+    heap[5] = 11;
+    heap[6] = 3;
+    heap[7] = 2;
+    heap[8] = 8;
+    heap[9] = 1;
+
+    SECTION("Build maxHeap"){
+        heap.buildMaxHeap();
+        CHECK(16 == heap[0]);
+        CHECK(14 == heap[1]);
+        CHECK(11 == heap[2]);
+        CHECK(8 == heap[3]);
+        CHECK(7 == heap[4]);
+        CHECK(10 == heap[5]);
+        CHECK(3 == heap[6]);
+        CHECK(2 == heap[7]);
+        CHECK(4 == heap[8]);
+        CHECK(1 == heap[9]);
+    }
+
+    SECTION("Do nothing when heap is already max"){
+        heap[5] = 9;
+
+        heap.maxHeapify(2);
+        CHECK(16 == heap[0]);
+        CHECK(4 == heap[1]);
+        CHECK(10 == heap[2]);
+        CHECK(14 == heap[3]);
+        CHECK(7 == heap[4]);
+        CHECK(9 == heap[5]);
+        CHECK(3 == heap[6]);
+        CHECK(2 == heap[7]);
+        CHECK(8 == heap[8]);
+        REQUIRE(1 == heap[9]);
+    }
+}
