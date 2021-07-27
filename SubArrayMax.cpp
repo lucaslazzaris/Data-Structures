@@ -35,6 +35,7 @@ std::tuple<int, int, T> findMaxCrossingSubArray(const std::vector<T> &vec, int l
 }
 
 
+// O(n lgn)
 template<typename T>
 std::tuple<int, int, T> subArrayMaxDivideAndConquer(const std::vector<T> &vec, int low, int high) {
   if (low == high){
@@ -54,6 +55,7 @@ std::tuple<int, int, T> subArrayMaxDivideAndConquer(const std::vector<T> &vec, i
   }
 }
 
+// O(n)
 template<typename T>
 std::tuple<int, int, T> subArrayMaxWindowing(const std::vector<T> &vec, int low, int high){
   int currentLeft = low;

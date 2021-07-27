@@ -8,7 +8,7 @@ void swap(T* a, T* b) {
     *b = c;
 }
 
-
+// O(n^2)
 template<typename T>
 void insertionSort(std::vector<T>& vec){
     int size = vec.size();
@@ -26,6 +26,7 @@ void insertionSort(std::vector<T>& vec){
     }
 }
 
+// O(n^2)
 template<typename T>
 void selectionSort(std::vector<T>& vec){
     int size = vec.size();
@@ -44,6 +45,7 @@ void selectionSort(std::vector<T>& vec){
     }
 }
 
+// O(n^2)
 template<typename T>
 void bubbleSort(std::vector<T>& vec){
     int size = vec.size();
@@ -65,6 +67,7 @@ void bubbleSort(std::vector<T>& vec){
 }
 
 // default size = -1 aims to make testing easier
+// O(n^2)
 template<typename T>
 void recursiveBubbleSort(std::vector<T>& vec, int size=-1){
     if(size == -1) {
@@ -121,6 +124,7 @@ void merge(std::vector<T>& vec, int left, int middle, int right){
 
 }
 
+// O(n lgn)
 template<typename T>
 void mergeSort(std::vector<T>& vec, int left, int right){
     if(left >= right){
