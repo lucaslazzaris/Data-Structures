@@ -364,3 +364,65 @@ TEST_CASE("HeapSort", "[Sort]"){
         REQUIRE(6 == heap[5]);
     }
 }
+
+TEST_CASE("Priority Queue", "[PriorityQueue]"){
+    Heap<int> heap{10};
+    heap[0] = 16;
+    heap[1] = 14;
+    heap[2] = 10;
+    heap[3] = 8;
+    heap[4] = 7;
+    heap[5] = 9;
+    heap[6] = 3;
+    heap[7] = 2;
+    heap[8] = 4;
+    heap[9] = 1;
+
+    SECTION("heapMaximum"){
+        REQUIRE(16 == heap.heapMaximum());
+    }
+
+    SECTION("heapExtractMax"){        
+        auto max = heap.heapExtractMax();
+        CHECK(max == 16);
+        CHECK(heap.getHeapSize() == 9);
+        CHECK(heap[0] == 14);
+        CHECK(heap[1] == 8);
+        CHECK(heap[2] == 10);
+        CHECK(heap[3] == 4);
+        CHECK(heap[4] == 7);
+        CHECK(heap[5] == 9);
+        CHECK(heap[6] == 3);
+        CHECK(heap[7] == 2);
+        REQUIRE(heap[8] == 1);
+    }
+    
+    SECTION("heapIncreaseKey"){       
+        heap.heapIncreaseKey(9, 18);
+        CHECK(heap[0] == 18);
+        CHECK(heap[1] == 16);
+        CHECK(heap[2] == 10);
+        CHECK(heap[3] == 8);
+        CHECK(heap[4] == 14);
+        CHECK(heap[5] == 9);
+        CHECK(heap[6] == 3);
+        CHECK(heap[7] == 2);
+        CHECK(heap[8] == 4);
+        REQUIRE(heap[9] == 7);
+    }
+
+    SECTION("maxHeapInsert"){      
+        heap.maxHeapInsert(18);
+        CHECK(heap[0] == 18);
+        CHECK(heap[1] == 16);
+        CHECK(heap[2] == 10);
+        CHECK(heap[3] == 8);
+        CHECK(heap[4] == 14);
+        CHECK(heap[5] == 9);
+        CHECK(heap[6] == 3);
+        CHECK(heap[7] == 2);
+        CHECK(heap[8] == 4);
+        REQUIRE(heap[9] == 1);
+        REQUIRE(heap[10] == 7);
+    }
+}

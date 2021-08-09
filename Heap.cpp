@@ -29,8 +29,42 @@ public:
         return 2 * (i + 1);
     }
 
+    int getHeapSize() {
+        return heapSize;
+    }
+
+    T heapMaximum() {
+        return this->arrayPtr[0];
+    }
+
     // O(lg n)
-    void maxHeapify(int i){
+    T heapExtractMax() {
+        T max = this->arrayPtr[0];
+        this->arrayPtr[0] = this->arrayPtr[this->size - 1];
+        this->heapSize -= 1;
+        maxHeapify(0); 
+        return max;
+    }
+
+    void heapIncreaseKey(int i, const T &key) { 
+        if (key < this->arrayPtr[i]){
+            throw InvalidKeyError{};
+        }
+        this->arrayPtr[i] = key;
+        while (i > 0 && this->arrayPtr[parent(i)] < this->arrayPtr[i]) {
+            heapSwap(i, parent(i));
+            i = parent(i);
+        }
+    }
+
+    void maxHeapInsert(const T& key){
+        this->insert(key - 1);
+        this->heapSize += 1;
+        heapIncreaseKey(this->heapSize - 1, key);
+    }
+
+    // O(lg n)
+    void maxHeapify(int i) {
         T largest;
         T l = left(i);
         T r = right(i);
@@ -48,21 +82,21 @@ public:
         }
     }
 
-    void heapSwap(int node1, int node2){
+    void heapSwap(int node1, int node2) {
         T aux = this->arrayPtr[node1];
         this->arrayPtr[node1] = this->arrayPtr[node2];
         this->arrayPtr[node2] = aux;
     }
 
     // O(n)
-    void buildMaxHeap(){
+    void buildMaxHeap() {
         for(int i = this->heapSize / 2 - 1; i >= 0 ; i--){
             maxHeapify(i);
         }
     }
 
     // O(nlgn)
-    void heapSort(){
+    void heapSort() {
         buildMaxHeap();
         int length = this->heapSize;
         for(int i = length - 1; i > 0 ; i--){
