@@ -127,3 +127,12 @@ TEST_CASE("Equality with pointers", "[SafeArray]"){
 
 }
 
+TEST_CASE("Insert", "[SafeArray]"){
+    SafeArray<int> a1(4);
+    a1.insert(40);
+    CHECK(a1[0] == 0);
+    CHECK(a1[1] == 0);
+    CHECK(a1[2] == 0);
+    CHECK(a1[3] == 0);
+    REQUIRE(a1[4] == 40);
+}

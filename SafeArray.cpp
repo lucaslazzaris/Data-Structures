@@ -66,6 +66,17 @@ public:
         }
     }
 
+    void insert(const T &element) {
+        T* newArrayPtr = new T[size + 1]{};
+        memcpy(newArrayPtr, arrayPtr, size * sizeof(T));
+
+        size += 1;
+        newArrayPtr[size - 1] = element;
+        delete [] arrayPtr;
+
+        arrayPtr = newArrayPtr;
+    }
+
     SafeArray& operator=(const SafeArray& source){
         
         if(&source == this){
