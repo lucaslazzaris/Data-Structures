@@ -3,8 +3,19 @@
 
 template <class T>
 class Heap : public SafeArray<T> {
+private:
+    unsigned int heapSize{0};
 public:    
     using SafeArray<T>::SafeArray;
+    
+    // Copy Constructor
+    Heap(const Heap& source) : SafeArray<T>(source) {
+        this->heapSize = source.getSize();        
+    }
+
+    explicit Heap(int size) : SafeArray<T>(size){
+        this->heapSize = size;
+    }
 
     int parent(int i) {
         return (i + 1) / 2 - 1;
@@ -23,12 +34,12 @@ public:
         T largest;
         T l = left(i);
         T r = right(i);
-        if (l < this->size && this->arrayPtr[l] > this->arrayPtr[i]) {
+        if (l < this->heapSize && this->arrayPtr[l] > this->arrayPtr[i]) {
             largest = l;
         } else {
             largest = i;
         }
-        if (r < this->size && this->arrayPtr[r] > this->arrayPtr[largest]) {
+        if (r < this->heapSize && this->arrayPtr[r] > this->arrayPtr[largest]) {
             largest = r;
         }
         if (largest != i){
@@ -45,8 +56,19 @@ public:
 
     // O(n)
     void buildMaxHeap(){
-        for(int i = this->size / 2 - 1; i >= 0 ; i--){
+        for(int i = this->heapSize / 2 - 1; i >= 0 ; i--){
             maxHeapify(i);
+        }
+    }
+
+    // O(nlgn)
+    void heapSort(){
+        buildMaxHeap();
+        int length = this->heapSize;
+        for(int i = length - 1; i > 0 ; i--){
+            heapSwap(0, i);
+            this->heapSize -= 1;
+            maxHeapify(0);
         }
     }
 };

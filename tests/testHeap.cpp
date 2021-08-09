@@ -277,3 +277,90 @@ TEST_CASE("buildMaxHeap", "[Heap]"){
         REQUIRE(1 == heap[9]);
     }
 }
+
+TEST_CASE("HeapSort", "[Sort]"){
+    SECTION("Sorted Array"){
+        Heap<int> heap{6};
+        heap[0] = 1;
+        heap[1] = 2;
+        heap[2] = 3;
+        heap[3] = 4;
+        heap[4] = 5;
+        heap[5] = 6;
+        heap.heapSort();
+        CHECK(1 == heap[0]);
+        CHECK(2 == heap[1]);
+        CHECK(3 == heap[2]);
+        CHECK(4 == heap[3]);
+        CHECK(5 == heap[4]);
+        REQUIRE(6 == heap[5]);
+    }
+
+    SECTION("Reversed Array"){
+        Heap<int> heap{6};
+        heap[0] = 6;
+        heap[1] = 5;
+        heap[2] = 4;
+        heap[3] = 3;
+        heap[4] = 2;
+        heap[5] = 1;
+        heap.heapSort();
+        CHECK(1 == heap[0]);
+        CHECK(2 == heap[1]);
+        CHECK(3 == heap[2]);
+        CHECK(4 == heap[3]);
+        CHECK(5 == heap[4]);
+        REQUIRE(6 == heap[5]);
+    }
+
+    SECTION("First smaller"){        
+        Heap<int> heap{6};
+        heap[0] = 1;
+        heap[1] = 2;
+        heap[2] = 4;
+        heap[3] = 3;
+        heap[4] = 6;
+        heap[5] = 5;
+        heap.heapSort();
+        CHECK(1 == heap[0]);
+        CHECK(2 == heap[1]);
+        CHECK(3 == heap[2]);
+        CHECK(4 == heap[3]);
+        CHECK(5 == heap[4]);
+        REQUIRE(6 == heap[5]);
+    }
+
+    SECTION("Last bigger"){        
+        Heap<int> heap{6};
+        heap[0] = 2;
+        heap[1] = 5;
+        heap[2] = 4;
+        heap[3] = 3;
+        heap[4] = 1;
+        heap[5] = 6;
+        heap.heapSort();
+        CHECK(1 == heap[0]);
+        CHECK(2 == heap[1]);
+        CHECK(3 == heap[2]);
+        CHECK(4 == heap[3]);
+        CHECK(5 == heap[4]);
+        REQUIRE(6 == heap[5]);
+    }
+    
+    SECTION("Last bigger and first smaller"){        
+        Heap<int> heap{6};
+        heap[0] = 1;
+        heap[1] = 5;
+        heap[2] = 4;
+        heap[3] = 3;
+        heap[4] = 2;
+        heap[5] = 6;
+        heap.heapSort();
+        CHECK(1 == heap[0]);
+        CHECK(2 == heap[1]);
+        CHECK(3 == heap[2]);
+        CHECK(4 == heap[3]);
+        CHECK(5 == heap[4]);
+        REQUIRE(6 == heap[5]);
+    }
+}
