@@ -207,3 +207,93 @@ TEST_CASE("RecursiveBubble", "[Sort]"){
         REQUIRE_THAT(a, Catch::Matchers::Equals(std::vector<int>{ 1, 2, 3, 4, 5, 6 }));
     }
 }
+
+TEST_CASE("Partition", "[Partition]"){
+    SECTION("Continuos sorted array 6 elements"){
+        std::vector<int> a{1, 2, 3, 4, 5, 6};
+        partition(a, 0, 5);
+        REQUIRE_THAT(a, Catch::Matchers::Equals(std::vector<int>{ 1, 2, 3, 4, 5, 6 }));
+    }
+
+    SECTION("Unsorted array 6 elements"){
+        std::vector<int> a{1, 4, 7, 2, 5, 6};
+        partition(a, 0, 5);
+        REQUIRE_THAT(a, Catch::Matchers::Equals(std::vector<int>{ 1, 4, 2, 5, 6, 7 }));
+    }
+
+    SECTION("Continuos sorted array 7 elements"){
+        std::vector<int> a{1, 2, 3, 4, 5, 6, 7};
+        partition(a, 0, 6);
+        REQUIRE_THAT(a, Catch::Matchers::Equals(std::vector<int>{ 1, 2, 3, 4, 5, 6, 7 }));
+    }
+
+    SECTION("Unsorted array 7 elements"){
+        std::vector<int> a{1, 4, 7, 9, 5, 6, 8};
+        partition(a, 0, 6);
+        REQUIRE_THAT(a, Catch::Matchers::Equals(std::vector<int>{ 1, 4, 7, 5, 6, 8, 9 }));
+    }
+}
+
+TEST_CASE("QuickSort", "[Sort]"){
+    SECTION("Sorted Array"){
+        std::vector<int> a{1, 2, 3, 4, 5, 6};
+        quickSort(a, 0, 5);
+        REQUIRE_THAT(a, Catch::Matchers::Equals(std::vector<int>{ 1, 2, 3, 4, 5, 6 }));
+    }
+
+    SECTION("Reversed Array"){
+        std::vector<int> a{6, 5, 4, 3, 2, 1};
+        quickSort(a, 0, 5);
+        REQUIRE_THAT(a, Catch::Matchers::Equals(std::vector<int>{ 1, 2, 3, 4, 5, 6 }));
+    }
+
+    SECTION("First smaller"){        
+        std::vector<int> a{1, 2, 4, 3, 6, 5};
+        quickSort(a, 0, 5);
+        REQUIRE_THAT(a, Catch::Matchers::Equals(std::vector<int>{ 1, 2, 3, 4, 5, 6 }));
+    }
+
+    SECTION("Last bigger"){        
+        std::vector<int> a{2, 5, 4, 3, 1, 6};
+        quickSort(a, 0, 5);
+        REQUIRE_THAT(a, Catch::Matchers::Equals(std::vector<int>{ 1, 2, 3, 4, 5, 6 }));
+    }
+    
+    SECTION("Last bigger and first smaller"){        
+        std::vector<int> a{1, 5, 4, 3, 2, 6};
+        quickSort(a, 0, 5);
+        REQUIRE_THAT(a, Catch::Matchers::Equals(std::vector<int>{ 1, 2, 3, 4, 5, 6 }));
+    }
+}
+
+TEST_CASE("RandomizedQuickSort", "[Sort]"){
+    SECTION("Sorted Array"){
+        std::vector<int> a{1, 2, 3, 4, 5, 6};
+        randomizedQuickSort(a, 0, 5);
+        REQUIRE_THAT(a, Catch::Matchers::Equals(std::vector<int>{ 1, 2, 3, 4, 5, 6 }));
+    }
+
+    SECTION("Reversed Array"){
+        std::vector<int> a{6, 5, 4, 3, 2, 1};
+        randomizedQuickSort(a, 0, 5);
+        REQUIRE_THAT(a, Catch::Matchers::Equals(std::vector<int>{ 1, 2, 3, 4, 5, 6 }));
+    }
+
+    SECTION("First smaller"){        
+        std::vector<int> a{1, 2, 4, 3, 6, 5};
+        randomizedQuickSort(a, 0, 5);
+        REQUIRE_THAT(a, Catch::Matchers::Equals(std::vector<int>{ 1, 2, 3, 4, 5, 6 }));
+    }
+
+    SECTION("Last bigger"){        
+        std::vector<int> a{2, 5, 4, 3, 1, 6};
+        randomizedQuickSort(a, 0, 5);
+        REQUIRE_THAT(a, Catch::Matchers::Equals(std::vector<int>{ 1, 2, 3, 4, 5, 6 }));
+    }
+    
+    SECTION("Last bigger and first smaller"){        
+        std::vector<int> a{1, 5, 4, 3, 2, 6};
+        randomizedQuickSort(a, 0, 5);
+        REQUIRE_THAT(a, Catch::Matchers::Equals(std::vector<int>{ 1, 2, 3, 4, 5, 6 }));
+    }
+}

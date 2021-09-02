@@ -1,5 +1,6 @@
 #include<iostream>
 #include<vector>
+#include <stdlib.h>
 
 template<typename T>
 void swap(T* a, T* b) {
@@ -137,4 +138,49 @@ void mergeSort(std::vector<T>& vec, int left, int right){
 
         merge(vec, left, middle, right);
     }
+}
+
+// O(n)
+template<typename T>
+int partition(std::vector<T>& vec, int left, int right){
+    auto pivot = vec[right];
+
+    int i = left - 1;
+    for(int j = left; j < right; j++){
+        if(vec[j] <= pivot){
+            i++;
+            swap(&vec[i], &vec[j]);
+        }
+    }
+    swap(&vec[i + 1], &vec[right]);
+    return i + 1;
+}
+
+// O(n lgn)
+template<typename T>
+void quickSort(std::vector<T>& vec, int left, int right) {
+    if(left >= right){
+        return;
+    }
+    int pivotIndex = partition(vec, left, right);
+    quickSort(vec, left, pivotIndex - 1);
+    quickSort(vec, pivotIndex + 1, right);
+}
+
+template<typename T>
+int randomizedPartition(std::vector<T>& vec, int left, int right){
+    int pivotIndex = (rand() % (right - left + 1)) + left;
+    swap(&vec[right], &vec[pivotIndex]);
+    return partition(vec, left, right);
+}
+
+// O(n lgn)
+template<typename T>
+void randomizedQuickSort(std::vector<T>& vec, int left, int right){
+    if(left >= right){
+        return;
+    }
+    int pivotIndex = randomizedPartition(vec, left, right);
+    randomizedQuickSort(vec, left, pivotIndex - 1);
+    randomizedQuickSort(vec, pivotIndex + 1, right);
 }
