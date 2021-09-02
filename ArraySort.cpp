@@ -184,3 +184,25 @@ void randomizedQuickSort(std::vector<T>& vec, int left, int right){
     randomizedQuickSort(vec, left, pivotIndex - 1);
     randomizedQuickSort(vec, pivotIndex + 1, right);
 }
+
+// O(n) must use integers between 0-k (k is inclusive)
+std::vector<int> countingSort(std::vector<int> vec, int k) {
+    int size = int(vec.size());
+    std::vector<int> auxArray(k + 1, 0);
+    std::vector<int> sortedArray(size, 0);
+
+    for(int i = 0; i < size; i++){
+        auxArray[vec[i]] += 1;
+    }
+
+    for(int i = 1; i < k + 1; i++){
+        auxArray[i] += auxArray[i - 1];
+    }
+    
+    for(int i = size - 1; i > - 1; i--){
+        auxArray[vec[i]] -= 1;
+        sortedArray[auxArray[vec[i]]] = vec[i];
+    }
+
+    return sortedArray;
+}
