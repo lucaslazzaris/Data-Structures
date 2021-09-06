@@ -1,6 +1,8 @@
 #include<iostream>
+#include<list>
+#include<math.h>
+#include<stdlib.h>
 #include<vector>
-#include <stdlib.h>
 
 template<typename T>
 void swap(T* a, T* b) {
@@ -186,13 +188,15 @@ void randomizedQuickSort(std::vector<T>& vec, int left, int right){
 }
 
 // O(n) must use integers between 0-k (k is inclusive)
-std::vector<int> countingSort(std::vector<int> vec, int k) {
+// Modified to support being used in radix
+std::vector<int> countingSort(std::vector<int> vec, int k, int digit = 0) {
     int size = int(vec.size());
     std::vector<int> auxArray(k + 1, 0);
     std::vector<int> sortedArray(size, 0);
 
     for(int i = 0; i < size; i++){
-        auxArray[vec[i]] += 1;
+        int value_of_vec_i = int((vec[i]) / (pow(10, digit))) % 10;
+        auxArray[value_of_vec_i] += 1;
     }
 
     for(int i = 1; i < k + 1; i++){
@@ -200,9 +204,37 @@ std::vector<int> countingSort(std::vector<int> vec, int k) {
     }
     
     for(int i = size - 1; i > - 1; i--){
-        auxArray[vec[i]] -= 1;
-        sortedArray[auxArray[vec[i]]] = vec[i];
+        int value_of_vec_i = int((vec[i]) / (pow(10, digit))) % 10;
+        auxArray[value_of_vec_i] -= 1;
+        sortedArray[auxArray[value_of_vec_i]] = vec[i];
     }
 
     return sortedArray;
+}
+
+// O(n) must use integers between 0-largest_number
+void radixSort(std::vector<int>& vec, int largest_number){
+    int number_of_digits = int(log10(largest_number)) + 1;
+    for(int i = 0; i < number_of_digits; i++){
+        vec = countingSort(vec, 9, i);
+    }
+}
+
+// O(n) should use uniform distribution over [0, 1)
+void bucketSort(std::vector<float>& vec){
+    int size = vec.size();
+    std::vector<std::vector<float>> buckets(size);
+    for(int i = 0; i < size; i++){
+        int floored_int = int(size * vec[i]);
+        buckets[floored_int].push_back(vec[i]);
+    }
+
+    int finalPosition = 0;
+    for (int i = 0; i < size; i ++) {
+        insertionSort(buckets[i]);
+        for(int j = 0; j < buckets[i].size(); j++){
+            vec[finalPosition] = buckets[i][j];
+            finalPosition++;
+        }
+    }
 }

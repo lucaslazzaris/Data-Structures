@@ -301,8 +301,8 @@ TEST_CASE("RandomizedQuickSort", "[Sort]"){
 TEST_CASE("CountingSort", "[Sort]"){
     SECTION("Sorted Array"){
         std::vector<int> a{0, 1, 2, 3, 4, 5, 6};
-        countingSort(a, 6);
-        REQUIRE_THAT(a, Catch::Matchers::Equals(std::vector<int>{ 0, 1, 2, 3, 4, 5, 6 }));
+        auto sortedArray = countingSort(a, 6);
+        REQUIRE_THAT(sortedArray, Catch::Matchers::Equals(std::vector<int>{ 0, 1, 2, 3, 4, 5, 6 }));
     }
 
     SECTION("Reversed Array"){
@@ -327,5 +327,102 @@ TEST_CASE("CountingSort", "[Sort]"){
         std::vector<int> a{0, 1, 5, 4, 3, 2, 6};
         auto sortedArray = countingSort(a, 6);
         REQUIRE_THAT(sortedArray, Catch::Matchers::Equals(std::vector<int>{ 0, 1, 2, 3, 4, 5, 6 }));
+    }
+}
+
+
+
+TEST_CASE("RadixSort", "[Sort]"){
+    SECTION("Sorted Array"){
+        std::vector<int> a{0, 1, 2, 3, 4, 5, 6};
+        radixSort(a, 6);
+        REQUIRE_THAT(a, Catch::Matchers::Equals(std::vector<int>{ 0, 1, 2, 3, 4, 5, 6 }));
+    }
+
+    SECTION("Reversed Array"){
+        std::vector<int> a{6, 5, 4, 3, 2, 1, 0};
+        radixSort(a, 6);
+        REQUIRE_THAT(a, Catch::Matchers::Equals(std::vector<int>{ 0, 1, 2, 3, 4, 5, 6 }));
+    }
+
+    SECTION("First smaller"){        
+        std::vector<int> a{0, 1, 2, 4, 3, 6, 5};
+        radixSort(a, 6);
+        REQUIRE_THAT(a, Catch::Matchers::Equals(std::vector<int>{ 0, 1, 2, 3, 4, 5, 6 }));
+    }
+
+    SECTION("Last bigger"){        
+        std::vector<int> a{0, 2, 5, 4, 3, 1, 6};
+        radixSort(a, 6);
+        REQUIRE_THAT(a, Catch::Matchers::Equals(std::vector<int>{ 0, 1, 2, 3, 4, 5, 6 }));
+    }
+    
+    SECTION("Last bigger and first smaller"){        
+        std::vector<int> a{0, 1, 5, 4, 3, 2, 6};
+        radixSort(a, 6);
+        REQUIRE_THAT(a, Catch::Matchers::Equals(std::vector<int>{ 0, 1, 2, 3, 4, 5, 6 }));
+    }
+
+    SECTION("Sorted Array with more digits"){
+        std::vector<int> a{0, 10, 200, 301, 421, 543, 667};
+        radixSort(a, 667);
+        REQUIRE_THAT(a, Catch::Matchers::Equals(std::vector<int>{ 0, 10, 200, 301, 421, 543, 667 }));
+    }
+
+    SECTION("Reversed Array with more digits"){
+        std::vector<int> a{667, 543, 421, 301, 200, 10, 0};
+        radixSort(a, 667);
+        REQUIRE_THAT(a, Catch::Matchers::Equals(std::vector<int>{ 0, 10, 200, 301, 421, 543, 667 }));
+    }
+
+    SECTION("First smaller with more digits"){        
+        std::vector<int> a{0, 10, 200, 421, 301, 667, 543};
+        radixSort(a, 667);
+        REQUIRE_THAT(a, Catch::Matchers::Equals(std::vector<int>{ 0, 10, 200, 301, 421, 543, 667 }));
+    }
+
+    SECTION("Last bigger with more digits"){        
+        std::vector<int> a{0, 200, 543, 421, 301, 10, 667};
+        radixSort(a, 667);
+        REQUIRE_THAT(a, Catch::Matchers::Equals(std::vector<int>{ 0, 10, 200, 301, 421, 543, 667 }));
+    }
+    
+    SECTION("Last bigger and first smaller with more digits"){        
+        std::vector<int> a{0, 10, 543, 421, 301, 200, 667};
+        radixSort(a, 667);
+        REQUIRE_THAT(a, Catch::Matchers::Equals(std::vector<int>{ 0, 10, 200, 301, 421, 543, 667 }));
+    }
+}
+
+
+TEST_CASE("BucketSort", "[Sort]"){
+    SECTION("Sorted Array"){
+        std::vector<float> a{0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.61};
+        bucketSort(a);
+        REQUIRE_THAT(a, Catch::Matchers::Equals(std::vector<float>{ 0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.61 }));
+    }
+
+    SECTION("Reversed Array"){
+        std::vector<float> a{0.61, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0.0};
+        bucketSort(a);
+        REQUIRE_THAT(a, Catch::Matchers::Equals(std::vector<float>{ 0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.61 }));
+    }
+
+    SECTION("First smaller"){        
+        std::vector<float> a{0.0, 0.1, 0.2, 0.4, 0.3, 0.61, 0.6, 0.5};
+        bucketSort(a);
+        REQUIRE_THAT(a, Catch::Matchers::Equals(std::vector<float>{ 0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.61 }));
+    }
+
+    SECTION("Last bigger"){        
+        std::vector<float> a{0.0, 0.2, 0.5, 0.4, 0.3, 0.1, 0.6, 0.61};
+        bucketSort(a);
+        REQUIRE_THAT(a, Catch::Matchers::Equals(std::vector<float>{ 0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.61 }));
+    }
+    
+    SECTION("Last bigger and first smaller"){        
+        std::vector<float> a{0.0, 0.1, 0.5, 0.4, 0.3, 0.2, 0.6, 0.61};
+        bucketSort(a);
+        REQUIRE_THAT(a, Catch::Matchers::Equals(std::vector<float>{ 0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.61 }));
     }
 }
