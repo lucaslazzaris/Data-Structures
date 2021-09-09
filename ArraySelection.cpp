@@ -1,5 +1,14 @@
 #include<vector>
 
+// O(1)
+template<typename T>
+void swap(T* a, T* b) {
+    auto c = *a;
+    *a = *b;
+    *b = c;
+}
+
+// O(n)
 template<typename T>
 void minMax(std::vector<T> vec, T& currentMin, T&currentMax){
     int size = vec.size();
@@ -42,6 +51,7 @@ void minMax(std::vector<T> vec, T& currentMin, T&currentMax){
     }
 }
 
+// O(n)
 template<typename T>
 T min(std::vector<T> vec){
     T currentMin = vec[0];
@@ -53,6 +63,7 @@ T min(std::vector<T> vec){
     return currentMin;
 }
 
+// O(n)
 template<typename T>
 T max(std::vector<T> vec){
     T currentMax = vec[0];
@@ -62,4 +73,48 @@ T max(std::vector<T> vec){
         }
     }
     return currentMax;
+}
+
+// O(n)
+template<typename T>
+int partition(std::vector<T>& vec, int left, int right){
+    auto pivot = vec[right];
+
+    int i = left - 1;
+    for(int j = left; j < right; j++){
+        if(vec[j] <= pivot){
+            i++;
+            swap(&vec[i], &vec[j]);
+        }
+    }
+    swap(&vec[i + 1], &vec[right]);
+    return i + 1;
+}
+
+// O(n)
+template<typename T>
+int randomizedPartition(std::vector<T>& vec, int left, int right){
+    int pivotIndex = (rand() % (right - left + 1)) + left;
+    swap(&vec[right], &vec[pivotIndex]);
+    return partition(vec, left, right);
+}
+
+// O(n)
+template<typename T>
+T randomizedSelect(std::vector<T>& vec, int left, int right, int n) {
+    if(left == right) {
+        return vec[left];
+    }
+
+    int pivotIndex = randomizedPartition(vec, left, right);
+    int relativePositionPivot = pivotIndex - left + 1;
+
+    if(n == relativePositionPivot) {
+        return vec[pivotIndex];
+    } else if (n < relativePositionPivot){
+        return randomizedSelect(vec, left, pivotIndex - 1, n);
+    }
+    else {
+        return randomizedSelect(vec, pivotIndex + 1, right, n - relativePositionPivot);
+    }
 }
