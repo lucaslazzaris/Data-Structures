@@ -169,6 +169,7 @@ void quickSort(std::vector<T>& vec, int left, int right) {
     quickSort(vec, pivotIndex + 1, right);
 }
 
+// O(n)
 template<typename T>
 int randomizedPartition(std::vector<T>& vec, int left, int right){
     int pivotIndex = (rand() % (right - left + 1)) + left;
