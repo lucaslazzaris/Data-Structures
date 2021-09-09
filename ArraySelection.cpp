@@ -1,12 +1,5 @@
 #include<vector>
-
-// O(1)
-template<typename T>
-void swap(T* a, T* b) {
-    auto c = *a;
-    *a = *b;
-    *b = c;
-}
+#include "ArraySort.cpp"
 
 // O(n)
 template<typename T>
@@ -75,31 +68,7 @@ T max(std::vector<T> vec){
     return currentMax;
 }
 
-// O(n)
-template<typename T>
-int partition(std::vector<T>& vec, int left, int right){
-    auto pivot = vec[right];
-
-    int i = left - 1;
-    for(int j = left; j < right; j++){
-        if(vec[j] <= pivot){
-            i++;
-            swap(&vec[i], &vec[j]);
-        }
-    }
-    swap(&vec[i + 1], &vec[right]);
-    return i + 1;
-}
-
-// O(n)
-template<typename T>
-int randomizedPartition(std::vector<T>& vec, int left, int right){
-    int pivotIndex = (rand() % (right - left + 1)) + left;
-    swap(&vec[right], &vec[pivotIndex]);
-    return partition(vec, left, right);
-}
-
-// O(n)
+// expected O(n), worst O(n^2)
 template<typename T>
 T randomizedSelect(std::vector<T>& vec, int left, int right, int n) {
     if(left == right) {
@@ -118,3 +87,55 @@ T randomizedSelect(std::vector<T>& vec, int left, int right, int n) {
         return randomizedSelect(vec, pivotIndex + 1, right, n - relativePositionPivot);
     }
 }
+
+
+template<typename T>
+int partition5(std::vector<T>& vec, int left, int right){
+    insertionSort(vec, left, right);
+    return floor((left + right) / 2 );
+}
+
+template<typename T>
+int pivot(std::vector<T>& vec, int left, int right) {
+    if (right - left < 5) {
+        return partition5(vec, left, right);
+    }
+    for (int i = left; i < right; i+= 5){
+        int subRight = i + 4;
+        if(subRight > right){
+            subRight = right;
+        }
+        int median5 = partition5(vec, i, subRight);
+        swap(&vec[median5], &vec[left + floor((i - left) / 5)]);
+    }
+
+    int mid = (right - left) / 10 + left + 1;
+    return mid;
+}
+
+template<typename T>
+int medianPartition(std::vector<T>& vec, int left, int right) {
+    int pivotIndex = pivot(vec, left, right);
+    swap(&vec[right], &vec[pivotIndex]);
+    return partition(vec, left, right);
+}
+
+// O(n)
+template<typename T>
+T quickSelect(std::vector<T>& vec, int left, int right, int n) {
+    if(left == right) {
+        return vec[left];
+    }
+    
+    int pivotIndex = medianPartition(vec, left, right);
+    int relativePositionPivot = pivotIndex - left + 1;
+
+    if(n == relativePositionPivot){
+        return vec[pivotIndex];
+    } else if (n < relativePositionPivot){
+        return quickSelect(vec, left, pivotIndex - 1, n);
+    } else {
+        return quickSelect(vec, pivotIndex + 1, right, n - relativePositionPivot);
+    }
+}
+
