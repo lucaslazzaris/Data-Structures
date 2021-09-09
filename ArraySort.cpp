@@ -13,14 +13,23 @@ void swap(T* a, T* b) {
 
 // O(n^2)
 template<typename T>
-void insertionSort(std::vector<T>& vec){
-    int size = vec.size();
+void insertionSort(std::vector<T>& vec, int left = -1, int right = -1){
+    if(left == -1){
+        left = 1;
+    } else {
+        left++;
+    }
+    if (right == -1){
+        right = vec.size();
+    } else{
+        right++;
+    }
 
-    for(int i = 1; i < size; i++){
+    for(int i = left; i < right; i++){
         auto key = vec[i];
         auto index = i - 1;
 
-        while (index >= 0 && vec[index] > key){
+        while (index >= left - 1 && vec[index] > key){
             vec[index + 1] = vec[index];
             index -= 1;
         }
