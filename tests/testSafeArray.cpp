@@ -129,10 +129,69 @@ TEST_CASE("Equality with pointers", "[SafeArray]"){
 
 TEST_CASE("Insert", "[SafeArray]"){
     SafeArray<int> a1(4);
-    a1.insert(40);
-    CHECK(a1[0] == 0);
-    CHECK(a1[1] == 0);
-    CHECK(a1[2] == 0);
-    CHECK(a1[3] == 0);
-    REQUIRE(a1[4] == 40);
+
+    a1[0] = 1;
+    a1[1] = 2;
+    a1[2] = 4;
+    a1[3] = 8;
+
+    SECTION("Insert first element"){
+        a1.insert(0, 0);
+        CHECK(a1[0] == 0);
+        CHECK(a1[1] == 1);
+        CHECK(a1[2] == 2);
+        CHECK(a1[3] == 4);
+        REQUIRE(a1[4] == 8);
+    }
+
+    SECTION("Insert last element"){
+        a1.insert(3);
+        CHECK(a1[0] == 1);
+        CHECK(a1[1] == 2);
+        CHECK(a1[2] == 4);
+        CHECK(a1[3] == 8);
+        REQUIRE(a1[4] == 3);
+    }
+
+    SECTION("Insert middle element"){
+        a1.insert(1, 1);
+        CHECK(a1[0] == 1);
+        CHECK(a1[1] == 1);
+        CHECK(a1[2] == 2);
+        CHECK(a1[3] == 4);
+        REQUIRE(a1[4] == 8);
+    }
+}
+
+TEST_CASE("Remove", "[SafeArray]"){
+    SafeArray<int> a1(4);
+
+    a1[0] = 1;
+    a1[1] = 2;
+    a1[2] = 4;
+    a1[3] = 8;
+
+    SECTION("Remove first element"){
+        auto removed = a1.remove(0);
+        CHECK(a1[0] == 2);
+        CHECK(a1[1] == 4);
+        REQUIRE(a1[2] == 8);
+        REQUIRE(removed == 1);
+    }
+
+    SECTION("Remove last element"){
+        auto removed = a1.remove(3);
+        CHECK(a1[0] == 1);
+        CHECK(a1[1] == 2);
+        REQUIRE(a1[2] == 4);
+        REQUIRE(removed == 8);
+    }
+
+    SECTION("Remove middle element"){
+        auto removed = a1.remove(1);
+        CHECK(a1[0] == 1);
+        CHECK(a1[1] == 4);
+        REQUIRE(a1[2] == 8);
+        REQUIRE(removed == 2);
+    }
 }

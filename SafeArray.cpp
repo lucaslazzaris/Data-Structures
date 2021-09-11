@@ -66,15 +66,55 @@ public:
         }
     }
 
-    void insert(const T &element) {
+    void insert(const T &element, int index = -1) {
+        if (index == -1){
+            index = size;
+        }
         T* newArrayPtr = new T[size + 1]{};
-        memcpy(newArrayPtr, arrayPtr, size * sizeof(T));
+        
+        if (index != 0) {
+            memcpy(newArrayPtr, arrayPtr, index * sizeof(T));
+        }
+        if (index != size){
+            memcpy(
+                newArrayPtr + index + 1,
+                arrayPtr + index,
+                (size - index) * sizeof(T)
+            );
+        }
 
         size += 1;
-        newArrayPtr[size - 1] = element;
+        newArrayPtr[index] = element;
         delete [] arrayPtr;
 
         arrayPtr = newArrayPtr;
+    }
+
+    T remove(const int index) {
+        if(!isValidIndex(index)){
+            throw IndexOutOfBoundsException{};
+        }
+        T returnValue = arrayPtr[index];
+
+        T* newArrayPtr = new T[size - 1]{};
+
+        if(index != 0){
+            memcpy(newArrayPtr, arrayPtr, index * sizeof(T));
+        } 
+        if (index != size - 1){
+            memcpy(
+                newArrayPtr + index,
+                arrayPtr + index + 1,
+                (size - index - 1) * sizeof(T)
+            );
+        }
+        
+        size -= 1;
+        delete [] arrayPtr;
+
+        arrayPtr = newArrayPtr;
+
+        return returnValue;
     }
 
     SafeArray& operator=(const SafeArray& source){
