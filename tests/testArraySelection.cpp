@@ -218,10 +218,10 @@ TEST_CASE("QuickSelect", "[Select]"){
         CHECK(13 == quickSelect(a, 0, 9, 3));
         CHECK(24 == quickSelect(a, 0, 9, 4));
         CHECK(51 == quickSelect(a, 0, 9, 5));
-        REQUIRE(83 == quickSelect(a, 0, 9, 6));
-        REQUIRE(90 == quickSelect(a, 0, 9, 7));
-        REQUIRE(112 == quickSelect(a, 0, 9, 8));
-        REQUIRE(153 == quickSelect(a, 0, 9, 9));
+        CHECK(83 == quickSelect(a, 0, 9, 6));
+        CHECK(90 == quickSelect(a, 0, 9, 7));
+        CHECK(112 == quickSelect(a, 0, 9, 8));
+        CHECK(153 == quickSelect(a, 0, 9, 9));
         REQUIRE(198 == quickSelect(a, 0, 9, 10));
     }
 }
