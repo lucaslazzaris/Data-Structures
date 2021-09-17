@@ -26,13 +26,13 @@ TEST_CASE("Pop", "[Stack]"){
     CHECK(a1[0] == 1);
     CHECK(a1[1] == 2);
     CHECK(a1[2] == 4);
-    CHECK(a1.empty() == false);
+    CHECK(a1.isEmpty() == false);
     REQUIRE(popedValue == 8);
 }
 
-TEST_CASE("Empty", "[Stack]"){
+TEST_CASE("isEmpty", "[Stack]"){
     Stack<int> a1;
-    CHECK(a1.empty());
+    CHECK(a1.isEmpty());
 
     a1.push(1);
     a1.push(2);
@@ -43,5 +43,12 @@ TEST_CASE("Empty", "[Stack]"){
     CHECK(a1[1] == 2);
     CHECK(a1[2] == 4);
     CHECK(a1[3] == 8);
-    REQUIRE(a1.empty() == false);
+    REQUIRE(a1.isEmpty() == false);
+
+    a1.pop();
+    a1.pop();
+    a1.pop();
+    a1.pop();
+    REQUIRE(a1.isEmpty() == true);
+
 }
