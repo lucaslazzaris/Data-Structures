@@ -4,15 +4,12 @@
 
 TEST_CASE("Enqueue", "[Queue]"){
     Queue<int> a1(4);
+    a1.dequeue();
     a1.enqueue(40);
-    CHECK(a1[0] == 0);
-    CHECK(a1[1] == 0);
-    CHECK(a1[2] == 0);
-    CHECK(a1[3] == 0);
-    REQUIRE(a1[4] == 40);
+    REQUIRE(a1[0] == 40);
 }
 
-TEST_CASE("Pop", "[Queue]"){
+TEST_CASE("Dequeue", "[Queue]"){
     Queue<int> a1(4);
     Queue<int> a2;
     CHECK_THROWS(a2.dequeue());
@@ -23,16 +20,14 @@ TEST_CASE("Pop", "[Queue]"){
     a1[3] = 8;
 
     auto popedValue = a1.dequeue();
-    CHECK(a1[0] == 2);
-    CHECK(a1[1] == 4);
-    CHECK(a1[2] == 8);
-    CHECK(a1.empty() == false);
+    CHECK(a1.isEmpty() == false);
     REQUIRE(popedValue == 1);
 }
 
-TEST_CASE("Empty", "[Queue]"){
+TEST_CASE("isEmpty", "[Queue]"){
     Queue<int> a1;
-    CHECK(a1.empty());
+    a1.setSize(4);
+    CHECK(a1.isEmpty());
 
     a1.enqueue(1);
     a1.enqueue(2);
@@ -43,5 +38,5 @@ TEST_CASE("Empty", "[Queue]"){
     CHECK(a1[1] == 2);
     CHECK(a1[2] == 4);
     CHECK(a1[3] == 8);
-    REQUIRE(a1.empty() == false);
+    REQUIRE(a1.isEmpty() == false);
 }
