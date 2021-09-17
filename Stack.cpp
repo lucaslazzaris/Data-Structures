@@ -85,6 +85,6 @@ protected:
     T* arrayPtr{nullptr};
 
     bool isValidIndex(int index) const {
-        return index >= 0 && index <= size;
+        return index >= 0 && index < size;
     }
 };

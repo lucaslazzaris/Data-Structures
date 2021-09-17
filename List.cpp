@@ -31,8 +31,6 @@ public:
     void setNext(Node<T>* const nextNode){
         next = nextNode;
     }
-
-    
 };
 
 template <class T>
