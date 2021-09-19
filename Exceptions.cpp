@@ -20,3 +20,10 @@ class InvalidKeyError : public std::exception {
         return "Heap key is invalid";
     }
 };
+
+class QueueIsFull : public std::exception{
+    virtual const char* what() const throw(){
+        return "Queue is full";
+    }
+
+};
