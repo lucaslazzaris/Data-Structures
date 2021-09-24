@@ -35,12 +35,16 @@ public:
 
   void setLeft(Node<T>* leftNode){
     left = leftNode;
-    leftNode->setParent(this);
+    if (leftNode){
+      leftNode->setParent(this);
+    }
   }
 
   void setRight(Node<T>* rightNode){
     right = rightNode;
-    rightNode->setParent(this);
+    if (rightNode) {
+      rightNode->setParent(this);
+    }
   }
 
   void setParent(Node<T>* const parentNode){
@@ -90,6 +94,7 @@ public:
     }
   }
 
+  // O(h)
   Node<T>* searchNode(Node<T>* const node, const T& value) {
     if (node == nullptr ){
       return node;
@@ -106,6 +111,7 @@ public:
     }
   }
 
+  // O(h)
   Node<T>* iterativeSearchNode(Node<T>* const startNode, const T& value){
     Node<T>* node = startNode;
     while (node != nullptr && node->getValue() != value) {
@@ -118,6 +124,7 @@ public:
     return node;
   }
 
+  // O(h)
   Node<T>* minimum(Node<T>* const startNode){
     Node<T>* current = startNode;
     while(current->getLeft() != nullptr){
@@ -126,6 +133,7 @@ public:
     return current;
   }
 
+  // O(h)
   Node<T>* maximum(Node<T>* const startNode){
     Node<T>* current = startNode;
     while(current->getRight() != nullptr){
@@ -134,6 +142,7 @@ public:
     return current;
   }
 
+  // O(h)
   Node<T>* successor(Node<T>* const startNode) {
     if(startNode->getRight() != nullptr) {
       return minimum(startNode->getRight());
@@ -147,6 +156,7 @@ public:
     return current;
   }
 
+  // O(h)
   void insert(Node<T>* const newNode){
     Node<T>* current = nullptr;
     Node<T>* next = root;
@@ -167,6 +177,40 @@ public:
       current->setRight(newNode);
     }
     size++;
+  }
+
+  // O(1)
+  void transplant(Node<T>* oldNode, Node<T>* newNode){
+    if (!oldNode->getParent()){
+      root = newNode;
+    } else if(oldNode == oldNode->getParent()->getLeft()) {
+      oldNode->getParent()->setLeft(newNode);
+    } else {
+      oldNode->getParent()->setRight(newNode);
+    }
+  }
+
+  // O(h)
+  void remove(Node<T>* node){
+    if (!node) {
+      return;
+    }
+    else if (!node->getLeft()) {
+      transplant(node, node->getRight());
+    } else if (!node->getRight()) {
+      transplant(node, node->getLeft());
+    } else {
+      auto successorNode = minimum(node->getRight());
+      if (successorNode->getParent() != node){
+        transplant(successorNode, successorNode->getRight());
+        successorNode->setRight(node->getRight());
+      }
+      transplant(node, successorNode);
+      successorNode->setLeft(node->getLeft());
+      successorNode->getLeft()->setParent(successorNode);
+    }
+    delete node;
+    size--;
   }
 
   Node<T>* getRoot() {

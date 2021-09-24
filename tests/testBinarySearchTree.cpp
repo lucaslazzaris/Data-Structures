@@ -218,4 +218,120 @@ TEST_CASE("Insert", "[BinarySearchTree]") {
         CHECK(node1->getRight() == nullptr);
         REQUIRE(node1->getParent() == nullptr);
     }
+
+    SECTION("Three nodes tree") {
+        Node<int>* node1 = new(Node<int>);
+        Node<int>* node2 = new(Node<int>);
+        Node<int>* node3 = new(Node<int>);
+        node1->setValue(15);
+        node2->setValue(14);
+        node3->setValue(16);
+        BinarySearchTree<int> tree; 
+        tree.insert(node1);
+        tree.insert(node2);
+        tree.insert(node3)
+        ;
+        CHECK(tree.getRoot() == node1);
+        CHECK(node1->getLeft() == node2);
+        CHECK(node1->getRight() == node3);
+        CHECK(node1->getParent() == nullptr);
+        CHECK(node2->getParent() == node1);
+        REQUIRE(node3->getParent() == node1);
+    }
+}
+
+TEST_CASE("Remove", "[BinarySearchTree]"){
+    SECTION("Empty Tree"){
+        BinarySearchTree<int> tree; 
+        tree.remove(nullptr);
+        CHECK(tree.getRoot() == nullptr);
+        REQUIRE(tree.getSize() == 0);
+
+    }
+
+    SECTION("Only root"){
+        Node<int>* node = new(Node<int>);
+        node->setValue(15);
+        BinarySearchTree<int> tree(node);
+
+        tree.remove(node);
+
+        CHECK(tree.getRoot() == nullptr);
+        REQUIRE(tree.getSize() == 0);
+    }
+
+    SECTION("Only left child"){
+        Node<int>* node1 = new(Node<int>);
+        Node<int>* node2 = new(Node<int>);
+        node1->setValue(15);
+        node2->setValue(14);
+
+        BinarySearchTree<int> tree(node1);
+        tree.insert(node2);
+
+        tree.remove(node1);
+
+        CHECK(tree.getRoot() == node2);
+        REQUIRE(tree.getSize() == 1);
+    }
+
+    SECTION("Only right child"){
+        Node<int>* node1 = new(Node<int>);
+        Node<int>* node2 = new(Node<int>);
+        node1->setValue(15);
+        node2->setValue(16);
+
+        BinarySearchTree<int> tree(node1);
+        tree.insert(node2);
+
+        tree.remove(node1);
+
+        CHECK(tree.getRoot() == node2);
+        REQUIRE(tree.getSize() == 1);
+    }
+
+    SECTION("Right child is the successor"){
+        Node<int>* node1 = new(Node<int>);
+        Node<int>* node2 = new(Node<int>);
+        Node<int>* node3 = new(Node<int>);
+        node1->setValue(15);
+        node2->setValue(16);
+        node3->setValue(14);
+
+        BinarySearchTree<int> tree(node1);
+        tree.insert(node2);
+        tree.insert(node3);
+
+        tree.remove(node1);
+
+        CHECK(tree.getRoot() == node2);
+        CHECK(tree.getRoot()->getLeft() == node3);
+        CHECK(node3->getParent() == node2);
+        REQUIRE(tree.getSize() == 2);
+    }
+
+    SECTION("Right child is not the successor"){
+        Node<int>* node1 = new(Node<int>);
+        Node<int>* node2 = new(Node<int>);
+        Node<int>* node3 = new(Node<int>);
+        Node<int>* node4 = new(Node<int>);
+        node1->setValue(15);
+        node2->setValue(17);
+        node3->setValue(14);
+        node4->setValue(16);
+
+        BinarySearchTree<int> tree(node1);
+        tree.insert(node2);
+        tree.insert(node3);
+        tree.insert(node4);
+
+        tree.remove(node1);
+
+        CHECK(tree.getRoot() == node4);
+        CHECK(tree.getRoot()->getLeft() == node3);
+        CHECK(tree.getRoot()->getRight() == node2);
+        CHECK(node3->getParent() == node4);
+        CHECK(node2->getParent() == node4);
+        REQUIRE(tree.getSize() == 3);
+    }
 }
